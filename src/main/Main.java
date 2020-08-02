@@ -23,7 +23,7 @@ public class Main {
 		System.out.println(redux.get("value")); // reducerのcase plusにヒットしているので100が出力
 
 		redux.dispatch(new ReduxAction(ReduxActionType.Minus, 1));
-		System.out.println(redux.get("value")); // reducerのcase plusにヒットしているので99が出力
+		System.out.println(redux.get("value")); // reducerのcase minusにヒットしているので99が出力
 	}
 
 	public static Reducer createReducer() {
