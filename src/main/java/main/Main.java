@@ -18,12 +18,23 @@ public class Main {
 		// 初期値が出力される
 		System.out.println(redux.get("value"));
 
-		// state操作用の関数で定義されている通りに、stateが変更されている
-		redux.dispatch(new ReduxAction(ReduxActionType.Plus, 100));
-		System.out.println(redux.get("value")); // reducerのcase plusにヒットしているので100が出力
+		// hooksを利用しているコンポーネントを描画する。
+		MyComponent c = new MyComponent();
+		c.connect(redux); // reduxとcomponentをconnectする。
 
+		System.out.println("-- render結果として、stateの初期値(0)が出力される");
+		c.render();
+
+		// state操作用の関数で定義されている通りに、stateが変更される
+		// dispatchの度にhooksが動いて、stateが更新された場合は render() が実行される
+		System.out.println("-- dispatch 1: +100なので、100と出力される");
+		redux.dispatch(new ReduxAction(ReduxActionType.Plus, 100));
+
+		System.out.println("-- dispatch 2: -1なので、99と出力される");
 		redux.dispatch(new ReduxAction(ReduxActionType.Minus, 1));
-		System.out.println(redux.get("value")); // reducerのcase minusにヒットしているので99が出力
+
+		System.out.println("-- dispatch 1: +0なので、値が変更されておらず、renderされない");
+		redux.dispatch(new ReduxAction(ReduxActionType.Plus, 0));
 	}
 
 	public static Reducer createReducer() {
